@@ -11,13 +11,10 @@ struct Koordinaatti
         Y = y;
     }
 
-    /// <summary>
-    /// Tarkistaa onko tämä koordinaatti toisen koordinaatin vieressä
-    /// Viereisyys = ero x:ssä tai y:ssä on 1, ja toinen koordinaatti on sama
-    /// </summary>
+    
     public bool OnVierekkaen(Koordinaatti toinen)
     {
-        // Tarkistetaan yksi askel vaaka- tai pystysuunnassa
+       
         return (Math.Abs(this.X - toinen.X) == 1 && this.Y == toinen.Y)
             || (Math.Abs(this.Y - toinen.Y) == 1 && this.X == toinen.X);
     }
