@@ -1,4 +1,4 @@
-namespace Tehtävä3_NuoliKauppa
+namespace NuoliKauppa
 {
     internal class Program
     {
