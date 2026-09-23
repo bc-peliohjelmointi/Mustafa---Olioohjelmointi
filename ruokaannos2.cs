@@ -1,82 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-
-class Program
+﻿﻿namespace RuokaAnnos
 {
-    enum PaaRaakaAine
+    internal class Program
     {
-        Nautaa = 1,
-        Kanaa,
-        Kasviksia
-    }
-
-    enum Lisuke
-    {
-        Perunaa = 1,
-        Riisia,
-        Pastaa
-    }
-
-    enum Kastike
-    {
-        Curry = 1,
-        Hapanimela,
-        Pippuri,
-        Chili
-    }
-
-    class Ateria
-    {
-        public PaaRaakaAine Paa { get; set; }
-        public Lisuke Lisuke { get; set; }
-        public Kastike Kastike { get; set; }
-
-        public override string ToString()
+        enum Pääraaka { nautaa, kanaa, kasviksia }
+        enum Lisuke { perunaa, riisiä, pastaa }
+        enum Kastike { curry, hapanimelä, pippuri, chili }
+        class Ateria
         {
-            return $"{Paa.ToString().ToLower()} ja {Lisuke.ToString().ToLower()} {Kastike.ToString().ToLower()}-kastikkeella";
+            public Pääraaka pääraaka;
+            public Lisuke lisuke;
+            public Kastike kastike;
         }
-    }
-
-    static void Main()
-    {
-        List<Ateria> annokset = new List<Ateria>();
-
-        for (int i = 1; i <= 3; i++) 
+        static void Main(string[] args)
         {
-            Console.WriteLine($"\nValitse annos {i}:");
-
-            PaaRaakaAine paa = (PaaRaakaAine)KysyValinta<PaaRaakaAine>("Pääraaka-aine");
-            Lisuke lisuke = (Lisuke)KysyValinta<Lisuke>("Lisuke");
-            Kastike kastike = (Kastike)KysyValinta<Kastike>("Kastike");
-
-            annokset.Add(new Ateria { Paa = paa, Lisuke = lisuke, Kastike = kastike });
-        }
-
-        Console.WriteLine("\nValitsemasi annokset:");
-        foreach (var ateria in annokset)
-        {
-            Console.WriteLine(ateria);
-        }
-    }
-
-    static int KysyValinta<T>(string otsikko) where T : Enum
-    {
-        Console.WriteLine(otsikko + ":");
-        foreach (var arvo in Enum.GetValues(typeof(T)))
-        {
-            Console.WriteLine($"{(int)arvo} = {arvo}");
-        }
-
-        int valinta;
-        while (true)
-        {
-            Console.Write("Valintasi: ");
-            if (int.TryParse(Console.ReadLine(), out valinta) &&
-                Enum.IsDefined(typeof(T), valinta))
+            List<Ateria> aterialista = new List<Ateria>();
+            for (int i = 0; i < 3; i++)
             {
-                return valinta;
+                Ateria uusiAteria = new Ateria();
+                Console.Write("Pääraaka-aine (nautaa, kanaa, kasviksia): ");
+                string syote1 = Console.ReadLine();
+                uusiAteria.pääraaka = (Pääraaka)Enum.Parse(typeof(Pääraaka), syote1);
+                Console.Write("Lisukkeet (perunaa, riisiä, pastaa): ");
+                string syote2 = Console.ReadLine();
+                uusiAteria.lisuke = (Lisuke)Enum.Parse(typeof(Lisuke), syote2);
+                Console.Write("Kastike (curry, hapanimelä, pippuri, chili): ");
+                string syote3 = Console.ReadLine();
+                uusiAteria.kastike = (Kastike)Enum.Parse(typeof(Kastike), syote3);
+                aterialista.Add(uusiAteria);
             }
-            Console.WriteLine("Virheellinen valinta, yritä uudelleen.");
+            foreach (Ateria a in aterialista)
+            {
+                Console.WriteLine(a.pääraaka + " ja " + a.lisuke + " " + a.kastike + "-kastikkeella");
+            }
         }
     }
 }
