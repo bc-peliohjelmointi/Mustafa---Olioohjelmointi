@@ -1,4 +1,4 @@
-﻿namespace Tehtävä_5___Robotti
+﻿namespace Robotti
 {
     internal class Program
     {
