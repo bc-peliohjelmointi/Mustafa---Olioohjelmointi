@@ -1,85 +1,25 @@
 ﻿namespace kertaus10101
-{
-    using System;
-
-    class KolikonKeraamispeli
+﻿{
+    internal class Program
     {
-        static int pelaajaX = 5, pelaajaY = 5; 
-        static int kolikkoX, kolikkoY;        
-        static int kolikoitaJaljella = 1;     
-        static bool peliKaynnissa = true;     
-
-        static void Main()
+        enum Oventila { Lukossa, Kiinni, Auki }
+        static void Main(string[] args)
         {
-         
-            AlustaKolikko();
+            Oventila ovi = Oventila.Lukossa;
 
-          
-            while (peliKaynnissa && kolikoitaJaljella > 0)
+            while(true)
             {
-                TulostaKartta();
-                LiikutaPelaajaa();
-            }
+                Console.WriteLine("Ovi on nyt:" + ovi);
+                Console.WriteLine("Mitä haluat tehdä (avaa lukko, avaa, sulje, lukitse, lopeta): ");
+                string komento = Console.ReadLine().ToLower();
 
-            if (kolikoitaJaljella == 0)
-            {
-                Console.WriteLine("Onneksi olkoon! Keräsit kolikon!");
-            }
-            else
-            {
-                Console.WriteLine("Peli lopetettiin.");
-            }
-        }
-
-        static void AlustaKolikko()
-        {
-            Random random = new Random();
-            kolikkoX = random.Next(1, 10); 
-            kolikkoY = random.Next(1, 10);
-        }
-
-        static void TulostaKartta()
-        {
-            Console.Clear();
-            for (int y = 1; y <= 10; y++) 
-            {
-                for (int x = 1; x <= 10; x++) 
-                {
-                    if (x == pelaajaX && y == pelaajaY)
-                        Console.Write("[P]"); 
-                    else if (x == kolikkoX && y == kolikkoY)
-                        Console.Write("[$]"); 
-                    else
-                        Console.Write("[ ]"); 
-                }d
-                Console.WriteLine();
-            }
-        }
-
-        static void LiikutaPelaajaa()
-        {
-            Console.WriteLine("Liiku WASD-näppäimillä tai paina Q lopettaaksesi:");
-            ConsoleKey syote = Console.ReadKey(true).Key;
-
-            
-            if (syote == ConsoleKey.Q)
-            {
-                peliKaynnissa = false;
-                return;
-            }
-
-           
-            if (syote == ConsoleKey.W && pelaajaY > 1) pelaajaY--; 
-            if (syote == ConsoleKey.S && pelaajaY < 10) pelaajaY++; 
-            if (syote == ConsoleKey.A && pelaajaX > 1) pelaajaX--; 
-            if (syote == ConsoleKey.D && pelaajaX < 10) pelaajaX++; 
-
-            
-            if (pelaajaX == kolikkoX && pelaajaY == kolikkoY)
-            {
-                kolikoitaJaljella = 0; 
+                if (komento == "lopeta") break;
+                else if (komento == "avaa lukko" && ovi == Oventila.Lukossa) ovi = Oventila.Kiinni;
+                else if (komento == "avaa" && ovi == Oventila.Kiinni) ovi = Oventila.Auki;
+                else if (komento == "sulje" && ovi == Oventila.Auki) ovi = Oventila.Kiinni;
+                else if (komento == "lukitse" && ovi == Oventila.Kiinni) ovi = Oventila.Lukossa;
+                else Console.WriteLine("Komentoa ei pysty tehdä");
             }
         }
     }
-
 }
