@@ -3,7 +3,7 @@ using System.Linq;
 
 class Program
 {
-    // ---------------- ENUMS & BASE CLASS ----------------
+    
     class Tavara
     {
         public double Paino { get; }
@@ -21,7 +21,7 @@ class Program
         }
     }
 
-    // ---------------- ITEM CLASSES ----------------
+  
     class Miekka : Tavara
     {
         public Miekka() : base(5.0, 3.0) { }
@@ -46,7 +46,7 @@ class Program
         public override string ToString() => "Vesi";
     }
 
-    // ---------------- BACKPACK CLASS ----------------
+    
     class Reppu
     {
         private Tavara[] tavarat;
@@ -87,7 +87,7 @@ class Program
         }
     }
 
-    // ---------------- MAIN ----------------
+    
     static void Main()
     {
         Reppu reppu = new Reppu(5, 15.0, 10.0);
