@@ -1,93 +1,45 @@
-﻿using System;
-
-class Program
+namespace Tehtävä3_NuoliKauppa
 {
-    enum KarjenTyyppi
+    internal class Program
     {
-        Puu = 1,
-        Teras,
-        Timantti
-    }
-
-    enum SulanTyyppi
-    {
-        Lehti = 1,
-        Kanansulka,
-        Kotkansulka
-    }
-
-    class Nuoli
-    {
-       
-        private KarjenTyyppi karjenTyyppi;
-        private SulanTyyppi suloTyyppi;
-        private int pituus;
-
-     
-        public KarjenTyyppi Karjen => karjenTyyppi;
-        public SulanTyyppi Sulka => suloTyyppi;
-        public int Pituus => pituus;
-
-      
-        public Nuoli(KarjenTyyppi karjenTyyppi, SulanTyyppi suloTyyppi, int pituus)
+        enum Kärki { puu, teräs, timantti }
+        enum Perä { lehti, kanansulka, kotkansulka }
+        class Nuoli
         {
-            this.karjenTyyppi = karjenTyyppi;
-            this.suloTyyppi = suloTyyppi;
-            this.pituus = pituus;
-        }
-
-        
-        public int PalautaHinta()
-        {
-            int hinta = 0;
-
-            switch (karjenTyyppi)
+            private Kärki kärki;
+            private Perä perä;
+            private int pituus;
+            public Kärki HaeKärki() { return kärki; }
+            public Perä HaePerä() { return perä; }
+            public int HaePituus() { return pituus; }
+            public void AsetaKärki(Kärki k) { kärki = k; }
+            public void AsetaPerä(Perä p) { perä = p; }
+            public void AsetaPituus(int pit) { pituus = pit; }
+            public double PalautaHinta()
             {
-                case KarjenTyyppi.Puu: hinta += 3; break;
-                case KarjenTyyppi.Teras: hinta += 5; break;
-                case KarjenTyyppi.Timantti: hinta += 50; break;
+                double hinta = 0;
+                if (kärki == Kärki.puu) hinta += 3;
+                else if (kärki == Kärki.teräs) hinta += 5;
+                else if (kärki == Kärki.timantti) hinta += 50;
+                if (perä == Perä.lehti) hinta += 0;
+                else if (perä == Perä.kanansulka) hinta += 1;
+                else if (perä == Perä.kotkansulka) hinta += 5;
+                hinta += pituus * 0.05;
+                return hinta;
             }
-
-           
-            switch (suloTyyppi)
-            {
-                case SulanTyyppi.Lehti: hinta += 0; break;
-                case SulanTyyppi.Kanansulka: hinta += 5; break;
-                case SulanTyyppi.Kotkansulka: hinta += 10; break;
-            }
-
-            
-            hinta += pituus * 1;
-
-            return hinta;
         }
-    }
-
-    static void Main()
-    {
-        Console.WriteLine("Minkälainen kärki (1=Puu, 2=Teräs, 3=Timantti)?: ");
-        KarjenTyyppi karjen = (KarjenTyyppi)LueValinta(1, 3);
-
-        Console.WriteLine("Minkälaiset sulat (1=Lehti, 2=Kanansulka, 3=Kotkansulka)?: ");
-        SulanTyyppi sulka = (SulanTyyppi)LueValinta(1, 3);
-
-        Console.WriteLine("Nuolen pituus sentteinä (60-100): ");
-        int pituus = LueValinta(60, 100);
-
-        Nuoli nuoli = new Nuoli(karjen, sulka, pituus);
-
-        Console.WriteLine($"Tämän nuolen hinta on {nuoli.PalautaHinta()} kultarahaa.");
-    }
-
-    static int LueValinta(int min, int max)
-    {
-        int arvo;
-        while (true)
+        static void Main(string[] args)
         {
-            Console.Write("> ");
-            if (int.TryParse(Console.ReadLine(), out arvo) && arvo >= min && arvo <= max)
-                return arvo;
-            Console.WriteLine($"Anna luku väliltä {min}-{max}.");
+            Nuoli nuoli = new Nuoli();
+            Console.Write("Minkälainen kärki (puu, teräs, timantti)?: ");
+            string syote1 = Console.ReadLine();
+            nuoli.AsetaKärki((Kärki)Enum.Parse(typeof(Kärki), syote1));
+            Console.Write("Minkälaiset sulat (lehti, kanansulka, kotkansulka)?: ");
+            string syote2 = Console.ReadLine();
+            nuoli.AsetaPerä((Perä)Enum.Parse(typeof(Perä), syote2));
+            Console.Write("Nuolen pituus sentteinä (60-100): ");
+            nuoli.AsetaPituus(int.Parse(Console.ReadLine()));
+            Console.WriteLine("Tämän nuolen hinta on " + nuoli.PalautaHinta() + " kultarahaa.");
         }
     }
 }
