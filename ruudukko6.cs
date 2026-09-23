@@ -1,4 +1,4 @@
-﻿﻿namespace Tehtävä_6___Ruudukko
+﻿﻿namespace Ruudukko
 {
     internal class Program
     {
