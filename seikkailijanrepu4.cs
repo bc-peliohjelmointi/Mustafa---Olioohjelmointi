@@ -88,41 +88,42 @@ class Program
     }
 
     
-    static void Main()
-    {
-        Reppu reppu = new Reppu(5, 15.0, 10.0);
-
-        while (true)
+    static void Main(string[] args)
         {
-            Console.WriteLine("\n" + reppu);
-            Console.WriteLine($"Tavaroita: {reppu.TavaroidenLkm}/{reppu.MaksimiMaara}, Paino: {reppu.NykyPaino}/{reppu.MaksimiPaino}, Tilavuus: {reppu.NykyTilavuus}/{reppu.MaksimiTilavuus}");
-            Console.WriteLine("\nValitse lisättävä tavara:");
-            Console.WriteLine("1) Miekka");
-            Console.WriteLine("2) Jousi");
-            Console.WriteLine("3) Köysi");
-            Console.WriteLine("4) Vesi");
-            Console.WriteLine("0) Lopeta");
+            Reppu reppu = new Reppu(10, 30, 20);
 
-            Console.Write("> ");
-            string valinta = Console.ReadLine();
+            Console.WriteLine(reppu.ToString());
 
-            if (valinta == "0")
-                break;
-
-            Tavara uusiTavara = null;
-            switch (valinta)
+            while (true)
             {
-                case "1": uusiTavara = new Miekka(); break;
-                case "2": uusiTavara = new Jousi(); break;
-                case "3": uusiTavara = new Köysi(); break;
-                case "4": uusiTavara = new Vesi(); break;
-                default: Console.WriteLine("Virheellinen valinta."); continue;
-            }
+                reppu.TulostaStatus();
+                Console.WriteLine("Mitä haluat lisätä?");
+                Console.WriteLine("1 - Nuoli");
+                Console.WriteLine("2 - Jousi");
+                Console.WriteLine("3 - Köysi");
+                Console.WriteLine("4 - Vettä");
+                Console.WriteLine("5 - Ruokaa");
+                Console.WriteLine("6 - Miekka");
 
-            if (!reppu.Lisää(uusiTavara))
-                Console.WriteLine("Tavaraa ei voi lisätä, kapasiteetti ylittyy.");
-            else
-                Console.WriteLine($"{uusiTavara} lisätty reppuun.");
+                string syote = Console.ReadLine();
+
+                Tavara valittu = null;
+                if (syote == "1") valittu = new Nuoli();
+                else if (syote == "2") valittu = new Jousi();
+                else if (syote == "3") valittu = new Köysi();
+                else if (syote == "4") valittu = new Vesi();
+                else if (syote == "5") valittu = new Ruoka();
+                else if (syote == "6") valittu = new Miekka();
+
+                if (valittu != null)
+                {
+                    bool onnistui = reppu.Lisää(valittu);
+                    if (!onnistui)
+                        Console.WriteLine("Reppu on täynnä, tavara ei mahdu!");
+                }
+
+                Console.WriteLine(reppu.ToString());
+            }
         }
     }
 }
