@@ -18,17 +18,17 @@ class Program
 
     class Nuoli
     {
-        // Yksityiset kentät
+       
         private KarjenTyyppi karjenTyyppi;
         private SulanTyyppi suloTyyppi;
         private int pituus;
 
-        // Properties (getter + setter)
+     
         public KarjenTyyppi Karjen => karjenTyyppi;
         public SulanTyyppi Sulka => suloTyyppi;
         public int Pituus => pituus;
 
-        // Konstruktori
+      
         public Nuoli(KarjenTyyppi karjenTyyppi, SulanTyyppi suloTyyppi, int pituus)
         {
             this.karjenTyyppi = karjenTyyppi;
@@ -36,12 +36,11 @@ class Program
             this.pituus = pituus;
         }
 
-        // Metodi hinnan laskemiseen
+        
         public int PalautaHinta()
         {
             int hinta = 0;
 
-            // Kärjen hinta
             switch (karjenTyyppi)
             {
                 case KarjenTyyppi.Puu: hinta += 3; break;
@@ -49,7 +48,7 @@ class Program
                 case KarjenTyyppi.Timantti: hinta += 50; break;
             }
 
-            // Sulan hinta
+           
             switch (suloTyyppi)
             {
                 case SulanTyyppi.Lehti: hinta += 0; break;
@@ -57,7 +56,7 @@ class Program
                 case SulanTyyppi.Kotkansulka: hinta += 10; break;
             }
 
-            // Varren hinta (per cm)
+            
             hinta += pituus * 1;
 
             return hinta;
