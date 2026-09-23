@@ -2,13 +2,13 @@
 
 class Program
 {
-    // Rajapinta (I = Interface)
+   
     interface IRobottiKäsky
     {
         void Suorita(Robotti robotti);
     }
 
-    // Robotti-luokka
+    
     class Robotti
     {
         private bool käynnissä;
@@ -54,7 +54,7 @@ class Program
         }
     }
 
-    // Käsky-luokat (rajapinnan toteutus)
+   
     class KäynnistäKäsky : IRobottiKäsky
     {
         public void Suorita(Robotti robotti)
