@@ -41,7 +41,7 @@ class Program
     {
         List<Ateria> annokset = new List<Ateria>();
 
-        for (int i = 1; i <= 3; i++) // BONUS: 3 annosta
+        for (int i = 1; i <= 3; i++) 
         {
             Console.WriteLine($"\nValitse annos {i}:");
 
