@@ -1,136 +1,91 @@
-﻿using System;
-
-class Program
+﻿namespace Tehtävä_5___Robotti
 {
-   
-    interface IRobottiKäsky
+    internal class Program
     {
-        void Suorita(Robotti robotti);
-    }
-
-    
-    class Robotti
-    {
-        private bool käynnissä;
-        private int x;
-        private int y;
-        public IRobottiKäsky[] Käskyt { get; set; }
-
-        public Robotti()
+        interface IRobottiKäsky
         {
-            käynnissä = false;
-            x = 0;
-            y = 0;
+            void Suorita(Robotti robotti);
         }
 
-        public void Käynnistä()
+        class Robotti
         {
-            käynnissä = true;
-            Console.WriteLine("Robotti käynnistyi.");
-        }
+            public int X { get; set; }
+            public int Y { get; set; }
+            public bool OnKäynnissä { get; set; }
+            public IRobottiKäsky?[] Käskyt { get; } = new IRobottiKäsky?[3];
 
-        public void Sammuta()
-        {
-            käynnissä = false;
-            Console.WriteLine("Robotti sammui.");
-        }
-
-        public bool OnKäynnissä() => käynnissä;
-
-        public void Liiku(int dx, int dy)
-        {
-            if (!käynnissä) return;
-            x += dx;
-            y += dy;
-            Console.WriteLine($"Robotti siirtyi kohtaan ({x},{y}).");
-        }
-
-        public void Suorita()
-        {
-            foreach (var käsky in Käskyt)
+            public void Suorita()
             {
-                käsky.Suorita(this);
-            }
-        }
-    }
-
-   
-    class KäynnistäKäsky : IRobottiKäsky
-    {
-        public void Suorita(Robotti robotti)
-        {
-            robotti.Käynnistä();
-        }
-    }
-
-    class SammutaKäsky : IRobottiKäsky
-    {
-        public void Suorita(Robotti robotti)
-        {
-            robotti.Sammuta();
-        }
-    }
-
-    class YlösKäsky : IRobottiKäsky
-    {
-        public void Suorita(Robotti robotti)
-        {
-            robotti.Liiku(0, 1);
-        }
-    }
-
-    class AlasKäsky : IRobottiKäsky
-    {
-        public void Suorita(Robotti robotti)
-        {
-            robotti.Liiku(0, -1);
-        }
-    }
-
-    class VasenKäsky : IRobottiKäsky
-    {
-        public void Suorita(Robotti robotti)
-        {
-            robotti.Liiku(-1, 0);
-        }
-    }
-
-    class OikeaKäsky : IRobottiKäsky
-    {
-        public void Suorita(Robotti robotti)
-        {
-            robotti.Liiku(1, 0);
-        }
-    }
-
-    static void Main()
-    {
-        Robotti robotti = new Robotti();
-        robotti.Käskyt = new IRobottiKäsky[3];
-
-        Console.WriteLine("Anna 3 käskyä (käynnistä, sammuta, ylös, alas, vasen, oikea):");
-
-        for (int i = 0; i < 3; i++)
-        {
-            Console.Write($"{i + 1}. käsky: ");
-            string syöte = Console.ReadLine().Trim().ToLower();
-
-            switch (syöte)
-            {
-                case "käynnistä": robotti.Käskyt[i] = new KäynnistäKäsky(); break;
-                case "sammuta": robotti.Käskyt[i] = new SammutaKäsky(); break;
-                case "ylös": robotti.Käskyt[i] = new YlösKäsky(); break;
-                case "alas": robotti.Käskyt[i] = new AlasKäsky(); break;
-                case "vasen": robotti.Käskyt[i] = new VasenKäsky(); break;
-                case "oikea": robotti.Käskyt[i] = new OikeaKäsky(); break;
-                default:
-                    Console.WriteLine("Tuntematon käsky, yritä uudelleen.");
-                    i--;
-                    break;
+                foreach (IRobottiKäsky? käsky in Käskyt)
+                {
+                    käsky?.Suorita(this);
+                    Console.WriteLine($"[{X} {Y} {OnKäynnissä}]");
+                }
             }
         }
 
-        Console.WriteLine("\nSuoritetaan käskyt:");
-        robotti.Suorita();
+        class Käynnistä : IRobottiKäsky
+        {
+            public void Suorita(Robotti robotti) { robotti.OnKäynnissä = true; }
+        }
+
+        class Sammuta : IRobottiKäsky
+        {
+            public void Suorita(Robotti robotti) { robotti.OnKäynnissä = false; }
+        }
+
+        class YlösKäsky : IRobottiKäsky
+        {
+            public void Suorita(Robotti robotti)
+            {
+                if (robotti.OnKäynnissä) robotti.Y++;
+            }
+        }
+
+        class AlasKäsky : IRobottiKäsky
+        {
+            public void Suorita(Robotti robotti)
+            {
+                if (robotti.OnKäynnissä) robotti.Y--;
+            }
+        }
+
+        class OikeaKäsky : IRobottiKäsky
+        {
+            public void Suorita(Robotti robotti)
+            {
+                if (robotti.OnKäynnissä) robotti.X++;
+            }
+        }
+
+        class VasenKäsky : IRobottiKäsky
+        {
+            public void Suorita(Robotti robotti)
+            {
+                if (robotti.OnKäynnissä) robotti.X--;
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            Robotti robotti = new Robotti();
+
+            for (int i = 0; i < 3; i++)
+            {
+                Console.Write("Mitä komentoja syötetään robotille? Vaihtoehdot: Käynnistä, Sammuta, Ylös, Alas, Oikea, Vasen. ");
+                string syote = Console.ReadLine();
+
+                if (syote == "Käynnistä") robotti.Käskyt[i] = new Käynnistä();
+                else if (syote == "Sammuta") robotti.Käskyt[i] = new Sammuta();
+                else if (syote == "Ylös") robotti.Käskyt[i] = new YlösKäsky();
+                else if (syote == "Alas") robotti.Käskyt[i] = new AlasKäsky();
+                else if (syote == "Oikea") robotti.Käskyt[i] = new OikeaKäsky();
+                else if (syote == "Vasen") robotti.Käskyt[i] = new VasenKäsky();
+            }
+
+            Console.WriteLine();
+            Console.Write("Robotti: ");
+            robotti.Suorita();
+        }
     }
 }
