@@ -1,4 +1,4 @@
-﻿namespace kertaus10101
+﻿namespace kertaus10101- Ovi
 ﻿{
     internal class Program
     {
